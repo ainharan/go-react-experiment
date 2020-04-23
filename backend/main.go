@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -37,7 +38,7 @@ func buildRoutes(router *mux.Router) {
 	router.HandleFunc("/vehicles/{id}", getVehicle).Methods("GET")
 	router.HandleFunc("/vehicles", createVehicle).Methods("POST")
 	router.HandleFunc("/vehicles/{id}", updateVehicle).Methods("PUT")
-	// router.HandleFunc("/vehicles/{id}", deleteVehicle).Methods("DELETE")
+	router.HandleFunc("/vehicles/{id}", deleteVehicle).Methods("DELETE")
 }
 
 func getVehicles(writer http.ResponseWriter, request *http.Request) {
@@ -77,6 +78,29 @@ func updateVehicle(writer http.ResponseWriter, request *http.Request) {
 	}
 	vehicles[id-1] = v
 	json.NewEncoder(writer).Encode(v)
+}
+
+func deleteVehicle(writer http.ResponseWriter, request *http.Request) {
+	fmt.Printf("hi 1")
+	initHeaders(writer)
+	params := mux.Vars(request)
+	for index, v := range vehicles {
+		fmt.Printf("hi")
+		id, err := strconv.Atoi(params["id"])
+		if err != nil {
+			log.Fatal(err)
+		}
+		if v.ID == id {
+			fmt.Printf("I am deleteing vehicles %v", vehicles)
+			remove(vehicles, index)
+		}
+	}
+	json.NewEncoder(writer).Encode(vehicles)
+}
+
+func remove(s []Vehicle, i int) []Vehicle {
+	s[i] = s[len(s)-1]  // copy last elem to index i
+	return s[:len(s)-1] // erase last elem and truncate slice
 }
 
 func initHeaders(writer http.ResponseWriter) {
