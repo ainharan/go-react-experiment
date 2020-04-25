@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -12,11 +11,11 @@ import (
 )
 
 type Vehicle struct {
-	ID     int     `json:"id"`
+	ID     int     `json:"id,omitempty"`
 	Name   string  `json:"name,omitempty"`
 	Price  float32 `json:"price,omitempty"`
 	Wheels int     `json:"numWheels,omitempty"`
-	Manual bool    `json:"isManual"`
+	Manual bool    `json:"isManual,omitempty"`
 }
 
 var vehicles []Vehicle
