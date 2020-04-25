@@ -89,7 +89,6 @@ func deleteVehicle(writer http.ResponseWriter, request *http.Request) {
 			log.Fatal(err)
 		}
 		if v.ID == id {
-			fmt.Printf("I am deleteing vehicles %v", vehicles)
 			vehicles = remove(vehicles, index)
 			json.NewEncoder(writer).Encode(vehicles)
 			return
