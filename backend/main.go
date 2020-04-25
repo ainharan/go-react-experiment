@@ -81,18 +81,18 @@ func updateVehicle(writer http.ResponseWriter, request *http.Request) {
 }
 
 func deleteVehicle(writer http.ResponseWriter, request *http.Request) {
-	fmt.Printf("hi 1")
 	initHeaders(writer)
 	params := mux.Vars(request)
 	for index, v := range vehicles {
-		fmt.Printf("hi")
 		id, err := strconv.Atoi(params["id"])
 		if err != nil {
 			log.Fatal(err)
 		}
 		if v.ID == id {
 			fmt.Printf("I am deleteing vehicles %v", vehicles)
-			remove(vehicles, index)
+			vehicles = remove(vehicles, index)
+			json.NewEncoder(writer).Encode(vehicles)
+			return
 		}
 	}
 	json.NewEncoder(writer).Encode(vehicles)
