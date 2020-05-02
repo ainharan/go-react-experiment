@@ -33,6 +33,11 @@ func addData() {
 }
 
 func buildRoutes(router *mux.Router) {
+	// buildHandler := http.FileServer(http.Dir("../frontend/build"))
+	// router.PathPrefix("/").Handler(buildHandler)
+	// staticHandler := http.StripPrefix("/static/", http.FileServer(http.Dir("../frontend/build/static")))
+	// router.PathPrefix("/static/").Handler(staticHandler)
+
 	router.HandleFunc("/vehicles", getVehicles).Methods("GET")
 	router.HandleFunc("/vehicles/{id}", getVehicle).Methods("GET")
 	router.HandleFunc("/vehicles", createVehicle).Methods("POST")
